@@ -1,41 +1,34 @@
-module digital_clock_tb();
-  // Import the design to be tested
-  import digital_clock (
-    input clk,
-    input rst,
-    output reg [4:0] hour,
-    output reg [5:0] minute,
-    output reg [50] second
-  );
-
-  // any necessary signals or variables
-  reg clk;
-  reg rst;
-
- // Create any necessary clocks or reset signals
-  always #10 clk = ~clk;
-
-  // Initialize the design
-  initial begin
-    clk = 1'b0;
-    rst = 1'b1;
-    #100;
-    rst = 1'b0;
-  end
-
-  // Connect the testbench to the design
-  digital_clock digital_clock_inst (
-    .clk(clk),
-    .rst(rst),
-    .hour(hour),
-    .minute(minute),
-    .second(second)
-  );
-
-  // Monitor the design's output
-  initial begin
-    // Monitor output signals here
-    $monitor("Time = %t, Clock = %b, Reset = %b, Hour = %d, Minute = %d, Second = %d", $time, clk, rst, hour, minute, second);
-  end
-
+module digclk_tst;
+ 
+    // Inputs
+    reg clk;
+    reg rst;
+ 
+    // Outputs
+    wire [5:0] sec;
+    wire [5:0] min;
+    wire [4:0] hr;
+ 
+    // Instantiate the Unit Under Test (UUT)
+    digiclockuut (
+        .clk(clk), 
+        .rst(rst), 
+        .sec(sec), 
+        .min(min), 
+        .hr(hr)
+    );
+ 
+    initial begin
+        // Initialize Inputs
+        clk = 0;
+        rst = 0;
+ 
+        // Wait 100 ns for global reset to finish
+        #100;
+rst=1;
+        // Add stimulus here
+ 
+    end
+ always #10 clk=!clk ;    
 endmodule
+ 
